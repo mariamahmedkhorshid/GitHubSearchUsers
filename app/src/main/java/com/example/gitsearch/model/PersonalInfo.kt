@@ -10,7 +10,8 @@ data class PersonalInfo(
     val bio: String,
     val created_at: String,
     val repos_url: String,
-    val avatar_url: String
+    val avatar_url: String,
+    val public_repos: Int
 
 
 )

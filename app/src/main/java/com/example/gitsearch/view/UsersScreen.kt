@@ -1,10 +1,12 @@
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -50,51 +52,63 @@ fun UsersScreen(viewModel: UsersViewModel = remember { UsersViewModel() }, onUse
     val users by viewModel.users.collectAsState()
     val textState = remember { mutableStateOf(TextFieldValue("")) }
 
-    Column (
-        modifier = Modifier.padding(5.dp, top = 35.dp)
-    ){
+   Box(
+       modifier = Modifier.fillMaxWidth()
+   ){
 
-        Row(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 15.dp, bottom = 15.dp, end = 11.dp)) {
-            Image(
-                painter = painterResource(
-                    id = R.drawable.light_logo),
-                contentDescription = "Logo",
-            )
 
-        }
+       Column (
+           modifier = Modifier.padding(5.dp, top = 35.dp)
+       ){
 
-        Text(
-            "GitHub User Search",
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom = 20.dp)
-        )
+           Row(
+               modifier = Modifier
+                   .align(Alignment.CenterHorizontally)
+                   .padding(top = 15.dp, bottom = 15.dp, end = 11.dp)
+           ) {
+               Image(
+                   painter = painterResource(
+                       id = R.drawable.light_logo),
+                   contentDescription = "Logo",
 
-        Row(
-        ) {
-            SearchView(
-                state = textState,
-                placeHolder = "Search",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) { query ->
-                if (query.isNotEmpty()) {
-                    viewModel.searchUsers(query, reset = true)
-                }
-            }
-        }
+               )
 
-        LazyColumn {
-            itemsIndexed(users) { index, user ->
-                UserItem(user = user, onClick = { onUserClick(user.login) })
+           }
 
-                if (index == users.lastIndex && users.isNotEmpty()) {
-                    viewModel.searchUsers(viewModel.currentQuery, reset = false)
-                }
-            }
-        }
-    }
+           Text(
+               "GitHub User Search",
+               fontSize = 30.sp,
+               fontWeight = FontWeight.Bold,
+               modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom = 5.dp)
+           )
+
+           Row(
+               modifier = Modifier.padding(top = 10.dp)
+           ) {
+               SearchView(
+                   state = textState,
+                   placeHolder = "Search",
+                   modifier = Modifier
+                       .fillMaxWidth()
+                       .padding(8.dp)
+               ) { query ->
+                   if (query.isNotEmpty()) {
+                       viewModel.searchUsers(query, reset = true)
+                   }
+               }
+           }
+
+           LazyColumn {
+               itemsIndexed(users) { index, user ->
+                   UserItem(user = user, onClick = { onUserClick(user.login) })
+
+                   if (index == users.lastIndex && users.isNotEmpty()) {
+                       viewModel.searchUsers(viewModel.currentQuery, reset = false)
+                   }
+               }
+           }
+       }
+   }
 }
 
 

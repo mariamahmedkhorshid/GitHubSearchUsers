@@ -31,6 +31,9 @@ class UsersViewModel () : ViewModel() {
     private val _userInfo = MutableStateFlow<PersonalInfo?>(null)
     val userInfo: StateFlow<PersonalInfo?> = _userInfo
 
+    private val _noUsers = MutableStateFlow(false)
+    val noUsers: StateFlow<Boolean> = _noUsers
+
     private var currentPage = 1
     private var isLoading = false
     var currentQuery: String = ""
